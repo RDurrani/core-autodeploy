@@ -130,6 +130,7 @@ for url in $zenoss_base_url/$zenoss_rpm_file; do
 	# have also been modified to use the pre-downloaded version if available.
 	if [ ! -f "${url##*/}" ] && [ ! -f "$SCRIPTPATH/${url##*/}" ];then
 		echo "Downloading ${url##*/}..."
+		echo $url
 		try wget -N -c $url
 	fi
 done
