@@ -130,15 +130,15 @@ for url in $zenoss_base_url/$zenoss_rpm_file; do
 	# have also been modified to use the pre-downloaded version if available.
 	if [ ! -f "${url##*/}" ] && [ ! -f "$SCRIPTPATH/${url##*/}" ];then
 		echo "Downloading ${url##*/}..."
-		echo $url
+		echo "Down is $url"
 		try wget -N $url
 	fi
 done
 
-if [ `rpm -qa gpg-pubkey* | grep -c "aa5a1ad7-4829c08a"` -eq 0  ];then
-	echo "Importing Zenoss GPG Key"
-	try rpm --import $zenoss_gpg_key
-fi
+#if [ `rpm -qa gpg-pubkey* | grep -c "aa5a1ad7-4829c08a"` -eq 0  ];then
+#	echo "Importing Zenoss GPG Key"
+#	try rpm --import $zenoss_gpg_key
+#fi
 
 #MySQL 5.29 creates dependancy issues, we'll force 5.28 for the remainder of the life of 4.2
 try rm -f .listing
@@ -170,7 +170,7 @@ disable_repo epel
 
 echo "Installing RabbitMQ"
 try wget http://www.rabbitmq.com/releases/rabbitmq-server/v${rmqv}/rabbitmq-server-${rmqv}-1.noarch.rpm
-try yum --enablerepo=epel -y --nogpgcheck localinstall rabbitmq-server-${rmqv}-1.noarch.rpm
+try yum --nogpgcheck --enablerepo=epel -y --nogpgcheck localinstall rabbitmq-server-${rmqv}-1.noarch.rpm
 # Scientific Linux 6 includes AMQP daemon -> qpidd stop it before starting rabbitmq
 if [ -e /etc/init.d/qpidd ]; then
        try /sbin/service qpidd stop
@@ -224,14 +224,14 @@ try yum --nogpgcheck -y localinstall rpmforge-release-0.5.2-2.$els.rf.$arch.rpm
 disable_repo rpmforge
 	
 echo "Installing rrdtool"
-try yum -y --enablerepo='rpmforge*' install rrdtool-1.4.7
+try yum -y --nogpgcheck --enablerepo='rpmforge*' install rrdtool-1.4.7
 
 echo "Installing Zenoss"
 if [ -e $zenoss_rpm_file ]; then
-	try yum -y localinstall --enablerepo=epel $zenoss_rpm_file
+	try yum -y localinstall --nogpgcheck --enablerepo=epel $zenoss_rpm_file
 else
 	# If already downloaded by user and manually placed next to core-autodeploy.sh, use that RPM instead.
-	try yum -y localinstall --enablerepo=epel $SCRIPTPATH/$zenoss_rpm_file
+	try yum -y localinstall --nogpgcheck --enablerepo=epel $SCRIPTPATH/$zenoss_rpm_file
 fi
 
 try cp $SCRIPTPATH/secure_zenoss.sh /opt/zenoss/bin/ 
