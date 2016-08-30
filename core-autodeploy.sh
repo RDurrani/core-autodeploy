@@ -147,8 +147,8 @@ try rm -f .listing
 echo "trying 2"
 #try wget --no-remove-listing $mysql_ftp_mirror >/dev/null 2>&1
 echo "trying 3"
-#mysql_v="5.5.28-1"
-mysql_v="5.5.37-1"
+mysql_v="5.5.28-1"
+#mysql_v="5.5.37-1"
 echo "entering sql"
 #if [ -e .listing ] && [ -z "$mysql_v" ]; then
 #	echo "Auto-detecting most recent MySQL Community release"
