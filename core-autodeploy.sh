@@ -144,7 +144,9 @@ echo "in main"
 #MySQL 5.29 creates dependancy issues, we'll force 5.28 for the remainder of the life of 4.2
 echo "trying"
 try rm -f .listing
+echo "trying 2"
 try wget --no-remove-listing $mysql_ftp_mirror >/dev/null 2>&1
+echo "trying 3"
 mysql_v="5.5.28-1"
 echo "entering sql"
 if [ -e .listing ] && [ -z "$mysql_v" ]; then
