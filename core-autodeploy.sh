@@ -134,6 +134,7 @@ for url in $zenoss_base_url/$zenoss_rpm_file; do
 		try wget -N $url
 	fi
 done
+echo "in main"
 
 #if [ `rpm -qa gpg-pubkey* | grep -c "aa5a1ad7-4829c08a"` -eq 0  ];then
 #	echo "Importing Zenoss GPG Key"
@@ -141,9 +142,11 @@ done
 #fi
 
 #MySQL 5.29 creates dependancy issues, we'll force 5.28 for the remainder of the life of 4.2
+echo "trying"
 try rm -f .listing
 try wget --no-remove-listing $mysql_ftp_mirror >/dev/null 2>&1
 mysql_v="5.5.28-1"
+echo "entering sql"
 if [ -e .listing ] && [ -z "$mysql_v" ]; then
 	echo "Auto-detecting most recent MySQL Community release"
 	# note: .listing won't be created if you going thru a proxy server(e.g. squid)
